@@ -1,5 +1,4 @@
  name: Actualizar Calendario Anual
-
 on:
   schedule:
     # Se ejecuta automáticamente el 1 de enero de cada año a las 00:00
