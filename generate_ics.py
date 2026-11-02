@@ -9,7 +9,6 @@ REEMPLAZOS_NOMBRES = {
     "Fiesta del Trabajo": "Día del Trabajador",
     "Fiesta Nacional de España": "Fiesta Nacional",
     "Asunción de la Virgen": "Asunción",
-    # Puedes añadir más aquí con el formato: "Nombre original": "Nuevo nombre",
 }
 
 # Obtener el año actual de forma dinámica
@@ -32,7 +31,7 @@ ics_lines = [
     "PRODID:-//Festivos Arroyo de la Encomienda//ES",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
-    f"X-WR-CALNAME:Festivos Arroyo {current_year}",
+    "X-WR-CALNAME:Festivos en Arroyo",  # Nombre fijo del calendario
 ]
 
 # Recorrer los festivos obtenidos del JSON
@@ -59,4 +58,4 @@ ics_lines.append("END:VCALENDAR")
 with open("festivos.ics", "w", encoding="utf-8") as f:
   f.write("\n".join(ics_lines))
 
-print(f"Calendario para {current_year} generado y personalizado con éxito.")
+print(f"Calendario para {current_year} generado con el nombre 'Festivos en Arroyo'.")
