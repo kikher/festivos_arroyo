@@ -6,8 +6,13 @@ import urllib.request
 current_year = datetime.now().year
 url = f"https://calendariosnacionales.com/es/v1/{current_year}/localidades/cyl/valladolid/arroyo-de-la-encomienda.json"
 
+# Crear una petición simulando ser un navegador web para evitar el bloqueo 403
+req = urllib.request.Request(
+    url, headers={"User-Agent": "Mozilla/5.0 (Compatible; CalendarBot/1.0)"}
+)
+
 # Descargar el JSON de la API
-with urllib.request.urlopen(url) as response:
+with urllib.request.urlopen(req) as response:
   data = json.loads(response.read().decode())
 
 # Construir la estructura básica del archivo iCal (.ics)
@@ -20,18 +25,17 @@ ics_lines = [
     f"X-WR-CALNAME:Festivos Arroyo {current_year}",
 ]
 
-# Recorrer los festivos obtenidos del JSON (usando la clave holidays.calendar)
+# Recorrer los festivos obtenidos del JSON
 for holiday in data.get("holidays", {}).get("calendar", []):
   name = holiday.get("name")
-  date_str = holiday.get("date").replace("-", "")  # Formato YYYYMMDD para iCal
+  date_str = holiday.get("date").replace("-", "")
   source = holiday.get("source", "Fuente oficial")
 
   ics_lines.extend([
       "BEGIN:VEVENT",
       f"SUMMARY:{name}",
       f"DTSTART;VALUE=DATE:{date_str}",
-      # En iCalendar, la fecha final para eventos de todo el día debe ser el día siguiente
-      f"DTEND;VALUE=DATE:{date_str}",  # Opcionalmente se puede calcular el día siguiente, pero Apple suele aceptarlo bien o se ajusta sumando 1 día.
+      f"DTEND;VALUE=DATE:{date_str}",
       f"DESCRIPTION:Festivo oficial ({source})",
       "END:VEVENT",
   ])
