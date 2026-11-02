@@ -1,9 +1,9 @@
- name: Actualizar Calendario Anual
+name: Actualizar Calendario Anual
+
 on:
   schedule:
-    # Se ejecuta automáticamente el 1 de enero de cada año a las 00:00
     - cron: '0 0 1 1 *'
-  workflow_dispatch: # Permite ejecutarlo manualmente desde la web de GitHub cuando quieras
+  workflow_dispatch:
 
 jobs:
   build:
